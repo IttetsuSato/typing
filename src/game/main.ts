@@ -5,13 +5,14 @@ import { MainMenu } from "./scenes/MainMenu";
 import { AUTO, Game } from "phaser";
 import { Preloader } from "./scenes/Preloader";
 import { FirstPhaser } from "./scenes/FirstPhaser";
+import { Typing } from "./scenes/Typing";
 
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
 const config: Phaser.Types.Core.GameConfig = {
     type: AUTO,
-    width: 1024,
-    height: 768,
+    width: 960,
+    height: 540,
     parent: "game-container",
     backgroundColor: "#028af8",
     physics: {
@@ -21,7 +22,7 @@ const config: Phaser.Types.Core.GameConfig = {
             debug: false,
         },
     },
-    scene: [FirstPhaser, Boot, Preloader, MainMenu, MainGame, GameOver],
+    scene: [Typing, FirstPhaser, Boot, Preloader, MainMenu, MainGame, GameOver],
 };
 
 const StartGame = (parent: string) => {
