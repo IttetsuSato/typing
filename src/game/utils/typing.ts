@@ -1,17 +1,10 @@
 import { romajiMap } from "@/const/romaji";
 
-type TypingResult = {
-  miss: boolean;
-  finished: boolean;
-  keyHistory: string[];
-};
-
-// タイピング判定関数
 export const checkTyping = (
-  targetWord: string, // タイピング対象の文字列
-  typedKey: string, // タイプされたキー
-  keyHistory: string[], // 正しいキーの履歴
-): TypingResult => {
+  targetWord: string, // 問題の単語
+  typedKey: string, // ユーザーが入力したキー
+  keyHistory: string[], // これまでの入力履歴
+) => {
   // 入力された文字数に基づく現在の位置
   const currentIndex = keyHistory.join("").length;
 
@@ -26,18 +19,20 @@ export const checkTyping = (
 
   const currentChar = targetWord[currentIndex];
   const possibleRomaji = romajiMap[currentChar] || [currentChar]; // ひらがなかチェック
+  const currentTyped = keyHistory.join(""); // 現在の履歴を文字列に変換
 
-  // これまでの履歴から現在のローマ字の候補を取得
-  const currentTyped = keyHistory.join("");
-  const remainingTyped = typedKey;
+  let matchFound = false;
 
+  // 各ローマ字パターンに対してチェックを行う
   for (const romaji of possibleRomaji) {
-    if (romaji.startsWith(currentTyped + remainingTyped)) {
-      // 正しいローマ字パターンの一部が入力された場合
-      keyHistory.push(typedKey);
+    // 現在の入力履歴＋今回の入力キーが、ローマ字パターンの先頭に一致するか
+    const combinedTyped = currentTyped + typedKey;
+    if (romaji.startsWith(combinedTyped)) {
+      matchFound = true;
+      keyHistory.push(typedKey); // 入力されたキーを履歴に追加
 
-      // 完成したかどうかをチェック
-      if (keyHistory.join("").length === targetWord.length) {
+      // もし入力が完全に一致していれば、finishedをtrueにして返す
+      if (combinedTyped === romaji) {
         return {
           miss: false,
           finished: true,
@@ -45,6 +40,7 @@ export const checkTyping = (
         };
       }
 
+      // 部分的に一致している場合はfinishedをfalseにして返す
       return {
         miss: false,
         finished: false,
@@ -53,7 +49,7 @@ export const checkTyping = (
     }
   }
 
-  // 間違ったキーが入力された場合
+  // 一致するパターンが見つからなかった場合はミス
   return {
     miss: true,
     finished: false,
