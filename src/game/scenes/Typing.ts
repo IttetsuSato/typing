@@ -1,3 +1,4 @@
+import { romajiTable } from "@/const/romaji";
 import { Scene } from "phaser";
 
 // type Sound = "NoAudioSound | HTML5AudioSound | WebAudioSound";
@@ -7,38 +8,7 @@ type Sound =
     | Phaser.Sound.WebAudioSound;
 
 const isAlphaNumeric = /^[0-9a-zA-Z ]+$/;
-let words = [
-    "fart attack",
-    "boogie monster",
-    "silly socks",
-    "monster burp",
-    "giggle fit",
-    "crazy hat",
-    "tickle tummy",
-    "prank call",
-    "silly walk",
-    "funny face",
-    "goofy grin",
-    "jokes galore",
-    "whoopee cushion",
-    "haha hauler",
-    "laughing loo",
-    "slippery slide",
-    "wacky wig",
-    "silly songs",
-    "noodle noodle",
-    "clown car",
-    "funny farm",
-    "bouncing ball",
-    "jumpy jelly",
-    "giggly gorilla",
-    "jolly jump",
-    "silly circus",
-    "hilarious hamster",
-    "grinning gorilla",
-    "funny fiesta",
-    "joyful jester",
-];
+let words = ["fart attack"];
 
 export class Typing extends Scene {
     word: string;
@@ -114,22 +84,12 @@ export class Typing extends Scene {
             return;
         }
 
-        if (Math.random() < 0.5) {
-            this.type1Sound.play();
-        } else {
-            this.type2Sound.play();
-        }
+        this.type1Sound.play();
 
         if (event.key !== this.word[this.typingText.text.length]) {
             this.wrongSound.play();
 
-            if (this.score > 0) {
-                this.score--;
-            }
-
             this.scoreText.text = "Score: " + this.score;
-
-            this.newWord();
 
             this.typingText.text = "";
             this.wordText.text = this.word;
@@ -141,12 +101,7 @@ export class Typing extends Scene {
 
         if (this.typingText.text === this.word) {
             this.score++;
-
-            if (this.score % 10 == 0) {
-                this.celebrateSound.play();
-            } else {
-                this.scoreUpSound.play();
-            }
+            this.scoreUpSound.play();
 
             this.scoreText.text = "Score: " + this.score;
 
