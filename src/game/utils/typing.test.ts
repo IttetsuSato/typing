@@ -1,4 +1,3 @@
-import exp from "constants";
 import { checkTyping } from "./typing"; // 実際のファイルパスに置き換えてください
 
 describe("checkTyping", () => {
