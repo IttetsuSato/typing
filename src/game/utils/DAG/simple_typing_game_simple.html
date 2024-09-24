@@ -16,11 +16,6 @@
         tab-size: 4;
       }
 
-      /* 要素の消去 */
-      .none {
-        display: none;
-      }
-
       /* タイピングする文字の全体（これから打つもの、打ったもの） */
       #panel {
         font-size: large;
@@ -30,13 +25,6 @@
       /* 打ち終わった文字 */
       .done {
         background-color: grey;
-      }
-
-      /* 付加情報を与えるフッター部分 */
-      #footer {
-        margin: 40px;
-        font-size: x-small;
-        display: none;
       }
     </style>
   </head>
@@ -53,14 +41,6 @@
         class="keys"
       ><span id="key_done" class="done"></span><span id="key_candidate"></span></pre>
     </div>
-    <div id="footer" class="inner">
-      <span
-        >自分でタイピングゲームの文字を作れます<a
-          href="simple_typing_game_maker.html"
-          >⇒</a
-        ></span
-      >
-    </div>
   </body>
 
   <script>
@@ -68,13 +48,7 @@
     sound.init();
 
     // タイプする文章
-    let dataset = [
-      { disp: "タイピングゲームの", str: "たいぴんぐげーむの" },
-      { disp: "打つ文字を", str: "うつもじを" },
-      { disp: "自分で", str: "じぶんで" },
-      { disp: "作ることが", str: "つくることが" },
-      { disp: "できます", str: "できます" },
-    ];
+    let dataset = [{ disp: "タイピングゲームの", str: "たいぴんぐげーむの" }];
 
     // 打ち終わった文字、これから打つ文字の例を表示する。
     const disp = (seq) => {
@@ -86,6 +60,12 @@
       document.getElementById("seq_done").innerText = keygraph.seq_done() ?? "";
       document.getElementById("seq_candidates").innerText =
         keygraph.seq_candidates() ?? "";
+    };
+
+    const reBuild = () => {
+      keygraph.build(dataset[0].str);
+      const seq = dataset[0].disp;
+      disp(seq);
     };
 
     // キーが押されたときの処理
@@ -103,18 +83,10 @@
         disp();
       }
       // すべての文字をタイプし終わったとき、
-      if (keygraph.is_finished()) {
-        keygraph.build(dataset[0].str);
-        const seq = dataset[0].disp;
-        disp(seq);
-      }
+      if (keygraph.is_finished()) reBuild();
     };
     document.body.addEventListener("keydown", (e) => {
-      if (e.key === " ") {
-        keygraph.build(dataset[0].str);
-        const seq = dataset[0].disp;
-        disp(seq);
-      }
+      if (e.key === " ") reBuild();
       keydown(e);
     });
 
@@ -125,5 +97,4 @@
     };
     reset_game("スペースキーでスタートします。");
   </script>
-  <!-- <script src="c_language_replay.js"></script> -->
 </html>
