@@ -43,7 +43,6 @@ let words = [
 export class Typing extends Scene {
     word: string;
     score: number;
-    velocity: { x: number; y: number };
     wordText: Phaser.GameObjects.Text;
     typingText: Phaser.GameObjects.Text;
     scoreText: Phaser.GameObjects.Text;
@@ -52,14 +51,12 @@ export class Typing extends Scene {
     scoreUpSound: Sound;
     wrongSound: Sound;
     celebrateSound: Sound;
-    bounceSound: Sound;
     music: Sound;
 
     constructor() {
         super("Typing");
         this.word = "";
         this.score = 0;
-        this.velocity = { x: 50, y: 50 };
     }
 
     preload() {
@@ -98,7 +95,6 @@ export class Typing extends Scene {
         this.scoreUpSound = this.sound.add("score_up");
         this.wrongSound = this.sound.add("wrong");
         this.celebrateSound = this.sound.add("celebrate");
-        this.bounceSound = this.sound.add("bounce");
         this.music = this.sound.add("music");
 
         this.music.setLoop(true);
@@ -109,27 +105,6 @@ export class Typing extends Scene {
     }
 
     update(time: number, delta: number) {
-        this.wordText.x += (this.velocity.x * delta) / 1000;
-        this.wordText.y += (this.velocity.y * delta) / 1000;
-
-        if (
-            this.wordText.x < 46 ||
-            this.wordText.x + this.wordText.width >
-                Number(this.game.config.width) - 46
-        ) {
-            this.bounceSound.play();
-            this.velocity.x = -this.velocity.x;
-        }
-
-        if (
-            this.wordText.y < 105 ||
-            this.wordText.y + this.wordText.height >
-                Number(this.game.config.height) - 25
-        ) {
-            this.bounceSound.play();
-            this.velocity.y = -this.velocity.y;
-        }
-
         this.typingText.x = this.wordText.x;
         this.typingText.y = this.wordText.y;
     }
