@@ -1,4 +1,3 @@
-import { romajiTable } from "@/const/romaji";
 import { Scene } from "phaser";
 
 // type Sound = "NoAudioSound | HTML5AudioSound | WebAudioSound";
@@ -65,10 +64,9 @@ export class Typing extends Scene {
         this.scoreUpSound = this.sound.add("score_up");
         this.wrongSound = this.sound.add("wrong");
         this.celebrateSound = this.sound.add("celebrate");
-        this.music = this.sound.add("music");
-
-        this.music.setLoop(true);
-        this.music.play();
+        // this.music = this.sound.add("music");
+        // this.music.setLoop(true);
+        // this.music.play();
 
         if (this.input.keyboard)
             this.input.keyboard.on("keydown", this.keyDown, this);
