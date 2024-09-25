@@ -9,7 +9,7 @@ export const char_keys_table = [
     keys: function (seq) {
       // 文字シーケンスが指定されたキーで始まる可能性があるかどうか確認する
       const key_startsWith = (seq, ks) => {
-        return this._char_keys_table
+        return char_keys_table
           .filter((ckeys) => seq.startsWith(ckeys.char))
           .some((ckeys) => ckeys.keys.some((key) => ks.includes(key[0])));
       };
