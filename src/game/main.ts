@@ -10,24 +10,23 @@ import { Typing } from "./scenes/Typing";
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
 const config: Phaser.Types.Core.GameConfig = {
-    type: AUTO,
-    width: 960,
-    height: 540,
-    parent: "game-container",
-    backgroundColor: "#028af8",
-    physics: {
-        default: "arcade",
-        arcade: {
-            gravity: { x: 0, y: 300 },
-            debug: false,
-        },
+  type: AUTO,
+  width: 960,
+  height: 540,
+  parent: "game-container",
+  backgroundColor: "#028af8",
+  physics: {
+    default: "arcade",
+    arcade: {
+      gravity: { x: 0, y: 300 },
+      debug: false,
     },
-    scene: [Typing, FirstPhaser, Boot, Preloader, MainMenu, MainGame, GameOver],
+  },
+  scene: [Typing, FirstPhaser, Boot, Preloader, MainMenu, MainGame, GameOver],
 };
 
 const StartGame = (parent: string) => {
-    return new Game({ ...config, parent });
+  return new Game({ ...config, parent });
 };
 
 export default StartGame;
-

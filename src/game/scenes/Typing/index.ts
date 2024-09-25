@@ -1,5 +1,6 @@
 import { Scene } from "phaser";
-import { keygraph } from "../../utils/DAG/keygraph";
+import { keygraph } from "../../../utils/DAG/keygraph";
+import { preloadMethod } from "./preload";
 
 // type Sound = "NoAudioSound | HTML5AudioSound | WebAudioSound";
 type Sound =
@@ -7,7 +8,6 @@ type Sound =
   | Phaser.Sound.HTML5AudioSound
   | Phaser.Sound.WebAudioSound;
 
-const isAlphaNumeric = /^[0-9a-zA-Z ]+$/;
 let words = ["とってもしんでる!"];
 
 export class Typing extends Scene {
@@ -28,13 +28,7 @@ export class Typing extends Scene {
   }
 
   preload() {
-    this.load.image("background", "assets/Board.png");
-    this.load.audio("type1", "assets/audio/type1.wav");
-    this.load.audio("type2", "assets/audio/type2.wav");
-    this.load.audio("wrong", "assets/audio/wrong.wav");
-    this.load.audio("celebrate", "assets/audio/celebrate.wav");
-    this.load.audio("bounce", "assets/audio/bounce.wav");
-    this.load.audio("music", "assets/audio/music.mp3");
+    preloadMethod(this);
   }
 
   create() {
@@ -75,7 +69,12 @@ export class Typing extends Scene {
   update(time: number, delta: number) {}
 
   keyDown(e: KeyboardEvent) {
-    if (!e.key.match(isAlphaNumeric)) {
+    if (
+      (e.shiftKey && e.key === "Shift") ||
+      (e.ctrlKey && e.key === "Control") ||
+      (e.altKey && e.key === "Alt") ||
+      (e.key === "Meta" && e.key === "Meta")
+    ) {
       return;
     }
 
@@ -89,6 +88,7 @@ export class Typing extends Scene {
         this.reset();
       }
     } else {
+      // 不正解の場合
       this.wrongSound.play();
     }
   }
